@@ -122,6 +122,13 @@ Mirrors the desktop shell helpers:
 - Background WorkManager polling
 - Full Room offline database (snapshot cache only)
 
+## Credits
+
+- **Matthew Crome** ([@crome1394](https://github.com/crome1394)) — author and maintainer
+- **Grok (xAI)** — development assistance on the Android port and features
+
 ## License
 
-Personal project. Not an official FreshRSS product. No store package is published from this tree by default.
+[MIT](LICENSE) © 2026 Matthew Crome
+
+Not an official [FreshRSS](https://freshrss.org/) product.
