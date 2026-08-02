@@ -1,0 +1,11 @@
+## Copy to local.properties (gitignored) after installing the Android SDK.
+## Android Studio creates this automatically when you open the project.
+sdk.dir=/home/crome/Android/Sdk
+
+## Optional — release signing for :app:assembleRelease / bundleRelease
+## Generate a keystore once:
+##   keytool -genkey -v -keystore upload.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+## RELEASE_STORE_FILE=/absolute/path/to/upload.jks
+## RELEASE_STORE_PASSWORD=
+## RELEASE_KEY_ALIAS=upload
+## RELEASE_KEY_PASSWORD=

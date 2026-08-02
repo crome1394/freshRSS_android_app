@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Bright RSS arcs centered in adaptive safe zone -->
+    <path
+        android:fillColor="#7AA2F7"
+        android:pathData="M40,70m-7,0a7,7 0,1 1,14 0a7,7 0,1 1,-14 0" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#7AA2F7"
+        android:strokeWidth="7"
+        android:strokeLineCap="round"
+        android:pathData="M33,52c14,0 25,11 25,25" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#7AA2F7"
+        android:strokeWidth="7"
+        android:strokeLineCap="round"
+        android:pathData="M33,36c24,0 43,19 43,43" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#BB9AF7"
+        android:strokeWidth="7"
+        android:strokeLineCap="round"
+        android:pathData="M33,22c32,0 58,26 58,58" />
+</vector>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Platform cleartext is still permitted so users who opt in via Settings
+  (“Allow insecure HTTP”) can reach LAN / Tailscale FreshRSS over http://.
+
+  App-level policy (default): only https:// server URLs are accepted unless
+  that setting is enabled. Prefer HTTPS or a VPN for credentials in transit.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
