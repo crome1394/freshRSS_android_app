@@ -14,9 +14,9 @@ Install the latest prebuilt APK (sideload; enable “Install unknown apps” for
 
 | Version | APK |
 |---------|-----|
-| **0.7.1** | [**FreshRSS-0.7.1.apk**](https://github.com/crome1394/freshRSS_android_app/raw/main/releases/FreshRSS-0.7.1.apk) |
+| **0.7.1** | [**FreshRSS_Personal_Client-07.1.apk**](https://github.com/crome1394/freshRSS_android_app/raw/main/releases/FreshRSS_Personal_Client-07.1.apk) |
 
-Direct path in the repo: [`releases/FreshRSS-0.7.1.apk`](releases/FreshRSS-0.7.1.apk)
+Direct path in the repo: [`releases/FreshRSS_Personal_Client-07.1.apk`](releases/FreshRSS_Personal_Client-07.1.apk)
 
 > Debug-signed build for personal use. Prefer building a release APK yourself if you need your own signing key.
 
