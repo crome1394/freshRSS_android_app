@@ -57,7 +57,7 @@ It is a port of a Quickshell desktop widget (`FreshRssPill.qml` + `freshrss-api.
 
 ## First-run setup (on the phone)
 
-1. Install the [APK](https://github.com/crome1394/freshRSS_android_app/raw/main/releases/FreshRSS-0.7.1.apk) (or build from source below).
+1. Install the [APK](https://github.com/crome1394/freshRSS_android_app/raw/main/releases/FreshRSS_Personal_Client-07.1.apk) (or build from source below).
 2. On first launch, the **setup** screen appears (or open **Settings**).
 3. Enter:
    - **FRESHRSS_BASE_URL** — prefer `https://…` (a bare hostname becomes `https://` automatically)
@@ -113,7 +113,7 @@ RELEASE_KEY_PASSWORD=...
 After a release build you can refresh the downloadable file:
 
 ```bash
-cp app/build/outputs/apk/debug/app-debug.apk releases/FreshRSS-0.7.1.apk
+cp app/build/outputs/apk/debug/app-debug.apk releases/FreshRSS_Personal_Client-07.1.apk
 # or from release outputs when signed
 ```
 
