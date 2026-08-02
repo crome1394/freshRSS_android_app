@@ -52,7 +52,7 @@ It is a port of a Quickshell desktop widget (`FreshRssPill.qml` + `freshrss-api.
 | **Offline** | Snapshot of the last successful load |
 | **Layout** | Title bar, filter chips, and filters panel can sit at the bottom |
 | **Theme** | System, Light, or Dark (Settings → Appearance) |
-| **Home widget** | Icon + unread count + last updated (updates when you open/refresh the app) |
+| **Home widget** | Icon + unread count + last updated; no background poll (idle ≈ no battery cost) |
 | **Extras** | Optional Tailscale shortcut; first-run setup wizard |
 
 ---
@@ -75,7 +75,7 @@ It is a port of a Quickshell desktop widget (`FreshRssPill.qml` + `freshrss-api.
 3. Place the widget; open the app once and pull to refresh so unread + last updated appear.
 4. Tap the widget anytime to open the app.
 
-The widget does **not** poll the network by itself (lowest battery use). It updates when the app loads or refreshes successfully.
+The widget does **not** poll the network or run background jobs. If you never open the app, it only shows the **last values** the app saved (icon + count + time on the launcher). **No extra battery or data use** while idle. It refreshes when you open/refresh the app, mark items read/unread, or mark a category read.
 
 ---
 

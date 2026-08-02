@@ -940,6 +940,8 @@ class HomeViewModel(
                     },
                 )
             }
+            // Push count to home-screen widget immediately (then again after persist).
+            publishWidgetFromState()
             if (!_state.value.writable) {
                 // Offline-only flip; persist cache
                 persistCurrentCache()
@@ -960,10 +962,17 @@ class HomeViewModel(
                         error = r.error,
                     )
                 }
+                publishWidgetFromState()
             } else {
                 persistCurrentCache()
             }
         }
+    }
+
+    private suspend fun publishWidgetFromState() {
+        val s = _state.value
+        val updated = s.lastUpdatedEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
+        publishWidget(s.unread, updated)
     }
 
     private suspend fun persistCurrentCache() {
@@ -1019,6 +1028,21 @@ class HomeViewModel(
             if (feedId > 0 && _state.value.writable) {
                 val r = client.markFeed(feedId, read = true)
                 if (r.ok) {
+                    // Optimistically clear local unread in this category for the widget/UI,
+                    // then full refresh for server truth.
+                    val targets = _state.value.items.filter {
+                        it.displayCategory == category && !it.isRead
+                    }
+                    _state.update { s ->
+                        s.copy(
+                            items = s.items.map {
+                                if (it.displayCategory == category) it.copy(isRead = true) else it
+                            },
+                            unread = (s.unread - targets.size).coerceAtLeast(0),
+                            statusLine = "Marked “$category” read",
+                        )
+                    }
+                    publishWidgetFromState()
                     refresh()
                     return@launch
                 }
@@ -1047,6 +1071,7 @@ class HomeViewModel(
                 )
             }
             persistCurrentCache()
+            publishWidgetFromState()
         }
     }
 
