@@ -312,7 +312,7 @@ enum class DateFilter(val label: String) {
     YESTERDAY("-1"),
     DAYS_7("-7"),
     DAYS_14("-14"),
-    DAYS_30("-30");
+    DAYS_21("-21");
 
     data class Window(
         /** Inclusive lower bound (unix seconds). 0 = none. */
@@ -336,7 +336,7 @@ enum class DateFilter(val label: String) {
             // Inclusive windows: today + previous (N-1) days.
             DAYS_7 -> Window(minEpoch = startOfLocalDay(-6))
             DAYS_14 -> Window(minEpoch = startOfLocalDay(-13))
-            DAYS_30 -> Window(minEpoch = startOfLocalDay(-29))
+            DAYS_21 -> Window(minEpoch = startOfLocalDay(-20))
         }
     }
 

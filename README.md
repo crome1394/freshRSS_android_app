@@ -45,7 +45,7 @@ It is a port of a Quickshell desktop widget (`FreshRssPill.qml` + `freshrss-api.
 |------|---------|
 | **Scopes** | Unread / All / Read / Starred (Fever + GReader backends) |
 | **Media** | Videos and Sound filter chips |
-| **Dates** | All · Today · -1 · -7 · -14 · -30 |
+| **Dates** | All · Today · -1 · -7 · -14 · -21 |
 | **Reading** | Collapsible feeds & day groups, dual-pane on wide screens |
 | **Actions** | Star, mark read, mark feed read, share, browser / play / listen |
 | **Offline** | Snapshot of the last successful load |
