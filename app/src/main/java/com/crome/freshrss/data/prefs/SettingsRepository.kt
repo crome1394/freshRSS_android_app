@@ -12,6 +12,7 @@ import com.crome.freshrss.data.model.FreshRssConfig
 import com.crome.freshrss.data.model.ReadScope
 import com.crome.freshrss.data.model.ReaderDefaults
 import com.crome.freshrss.data.secure.SecureSecrets
+import com.crome.freshrss.ui.theme.AppThemeMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -64,6 +65,8 @@ class SettingsRepository(context: Context) {
         val ALLOW_CLEARTEXT_HTTP = booleanPreferencesKey("allow_cleartext_http")
         /** Show the Tailscale (key) action in the title bar. Default true. */
         val SHOW_TAILSCALE_BUTTON = booleanPreferencesKey("show_tailscale_button")
+        /** Appearance: system | light | dark */
+        val THEME_MODE = stringPreferencesKey("theme_mode")
     }
 
     companion object {
@@ -145,6 +148,10 @@ class SettingsRepository(context: Context) {
         prefs[Keys.SHOW_TAILSCALE_BUTTON] ?: true
     }
 
+    val themeMode: Flow<AppThemeMode> = appContext.dataStore.data.map { prefs ->
+        AppThemeMode.fromStorage(prefs[Keys.THEME_MODE])
+    }
+
     suspend fun saveConfig(config: FreshRssConfig) {
         // Secret goes to Keystore-backed storage; never to plaintext DataStore.
         secrets.setApiPassword(config.apiPassword)
@@ -214,6 +221,12 @@ class SettingsRepository(context: Context) {
     suspend fun setShowTailscaleButton(value: Boolean) {
         appContext.dataStore.edit { prefs ->
             prefs[Keys.SHOW_TAILSCALE_BUTTON] = value
+        }
+    }
+
+    suspend fun setThemeMode(mode: AppThemeMode) {
+        appContext.dataStore.edit { prefs ->
+            prefs[Keys.THEME_MODE] = mode.storageValue
         }
     }
 }

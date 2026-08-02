@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.crome.freshrss.data.model.FreshRssConfig
 import com.crome.freshrss.data.prefs.SettingsRepository
 import com.crome.freshrss.data.remote.FreshRssClient
+import com.crome.freshrss.ui.theme.AppThemeMode
 import com.crome.freshrss.util.ServerUrl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,6 +34,8 @@ data class SettingsUiState(
     val allowCleartextHttp: Boolean = false,
     /** Show Tailscale shortcut in the title bar. */
     val showTailscaleButton: Boolean = true,
+    /** System / Light / Dark */
+    val themeMode: AppThemeMode = AppThemeMode.SYSTEM,
     val testResult: String? = null,
     val testing: Boolean = false,
     val saved: Boolean = false,
@@ -63,6 +66,7 @@ class SettingsViewModel(
                     expandFiltersOnStart = settings.expandFiltersOnStart.first(),
                     allowCleartextHttp = settings.allowCleartextHttp.first(),
                     showTailscaleButton = settings.showTailscaleButton.first(),
+                    themeMode = settings.themeMode.first(),
                 )
             }
         }
@@ -99,6 +103,14 @@ class SettingsViewModel(
         it.copy(showTailscaleButton = v, saved = false)
     }
 
+    /** Applies immediately so the UI previews the choice before Save. */
+    fun updateThemeMode(mode: AppThemeMode) {
+        _state.update { it.copy(themeMode = mode, saved = false) }
+        viewModelScope.launch {
+            settings.setThemeMode(mode)
+        }
+    }
+
     /**
      * Persist settings. [onSuccess] runs only after a valid save (normalized URL).
      */
@@ -127,6 +139,7 @@ class SettingsViewModel(
             settings.setExpandFiltersOnStart(s.expandFiltersOnStart)
             settings.setAllowCleartextHttp(s.allowCleartextHttp)
             settings.setShowTailscaleButton(s.showTailscaleButton)
+            settings.setThemeMode(s.themeMode)
             client.config = cfg
             _state.update {
                 it.copy(

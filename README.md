@@ -1,22 +1,76 @@
 # FreshRSS Android
 
-Personal [FreshRSS](https://freshrss.org/) client for Android. Connects to **your** self-hosted instance (LAN, Tailscale, or HTTPS). No hard-coded server; nothing is published for you.
+**A personal Android client for [FreshRSS](https://freshrss.org/)** — your self-hosted RSS reader, on your phone.
 
-Inspired by a Quickshell desktop widget (`FreshRssPill.qml` + `freshrss-api.sh`).
+Point it at **your** server (home LAN, Tailscale, or HTTPS). No account with us, no hard-coded host, no cloud middleman. You keep the feeds and the credentials.
 
-## Features
+Repository: [github.com/crome1394/freshRSS_android_app](https://github.com/crome1394/freshRSS_android_app)
 
-- **Unread / All / Read / Starred** scopes (Fever + Google Reader APIs)
-- **Videos / Sound** media filters
-- Date filters: All, Today, -1, -7, -14, -30
-- Collapsible feeds and date groups
-- Search, pull-to-refresh, swipe mark read/unread
-- Star, mark feed read, open in browser / play / listen
-- Offline snapshot of last successful load
-- Layout options: title bar, filter chips, and filters panel top or bottom
-- Optional Tailscale shortcut in the title bar
+---
 
-## Requirements
+## Download
+
+Install the latest prebuilt APK (sideload; enable “Install unknown apps” for your browser/files app):
+
+| Version | APK |
+|---------|-----|
+| **0.7.1** | [**FreshRSS-0.7.1.apk**](https://github.com/crome1394/freshRSS_android_app/raw/main/releases/FreshRSS-0.7.1.apk) |
+
+Direct path in the repo: [`releases/FreshRSS-0.7.1.apk`](releases/FreshRSS-0.7.1.apk)
+
+> Debug-signed build for personal use. Prefer building a release APK yourself if you need your own signing key.
+
+---
+
+## What it does
+
+FreshRSS Android is a lightweight feed reader UI for a **self-hosted FreshRSS** instance. It talks the same APIs as many desktop clients (Fever + Google Reader), so you can:
+
+- Browse **unread**, **all**, **read**, and **starred** items  
+- Filter by **video** or **audio/podcast-style** articles  
+- Narrow by date (**today**, **yesterday**, last **7 / 14 / 30** days)  
+- Search titles and summaries  
+- Mark read/unread (including swipe), star, mark a whole feed read  
+- Open articles in the browser, or play/listen when media is detected  
+- Keep working briefly **offline** from the last successful download  
+- Tune layout (chips and filters top or bottom) and **light / dark / system** theme  
+
+It is a port of a Quickshell desktop widget (`FreshRssPill.qml` + `freshrss-api.sh`), not an official FreshRSS product.
+
+---
+
+## Features (overview)
+
+| Area | Details |
+|------|---------|
+| **Scopes** | Unread / All / Read / Starred (Fever + GReader backends) |
+| **Media** | Videos and Sound filter chips |
+| **Dates** | All · Today · -1 · -7 · -14 · -30 |
+| **Reading** | Collapsible feeds & day groups, dual-pane on wide screens |
+| **Actions** | Star, mark read, mark feed read, share, browser / play / listen |
+| **Offline** | Snapshot of the last successful load |
+| **Layout** | Title bar, filter chips, and filters panel can sit at the bottom |
+| **Theme** | System, Light, or Dark (Settings → Appearance) |
+| **Extras** | Optional Tailscale shortcut; first-run setup wizard |
+
+---
+
+## First-run setup (on the phone)
+
+1. Install the [APK](https://github.com/crome1394/freshRSS_android_app/raw/main/releases/FreshRSS-0.7.1.apk) (or build from source below).
+2. On first launch, the **setup** screen appears (or open **Settings**).
+3. Enter:
+   - **FRESHRSS_BASE_URL** — prefer `https://…` (a bare hostname becomes `https://` automatically)
+   - **FRESHRSS_USER**
+   - **FRESHRSS_API_PASSWORD** — FreshRSS **Profile → API password**, not the web form password
+4. Optional: **Allow insecure HTTP** only on trusted LAN/VPN.
+5. **Test connection**, then **Save** / **Save & continue**.
+
+---
+
+## Build from source
+
+### Requirements
 
 | Tool | Notes |
 |------|--------|
@@ -24,33 +78,46 @@ Inspired by a Quickshell desktop widget (`FreshRssPill.qml` + `freshrss-api.sh`)
 | **Android SDK 35** | Command-line tools or Android Studio |
 | **Device/emulator** | Must reach your FreshRSS host |
 
-## Quick start
+### Quick start
 
 ```bash
-# Environment (adjust paths as needed)
 export JAVA_HOME=${JAVA_HOME:-/usr/lib/jvm/java-21-openjdk}
 export ANDROID_HOME=${ANDROID_HOME:-$HOME/Android/Sdk}
 export PATH=$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$PATH
 
-# Point Gradle at the SDK (once)
 echo "sdk.dir=$ANDROID_HOME" > local.properties
 
-cd /path/to/freshRSS_android_app
 ./gradlew :app:assembleDebug
 ./gradlew :app:installDebug   # USB debugging authorized
 ```
 
 Or open the project in **Android Studio** and run the `app` configuration.
 
-## First-run setup (on device)
+### Build variants
 
-1. On first launch, the **setup** screen asks for your server (or open **Settings** later).
-2. Set:
-   - **FRESHRSS_BASE_URL** — prefer `https://…` (bare hostnames get `https://` automatically)
-   - **FRESHRSS_USER**
-   - **FRESHRSS_API_PASSWORD** — Profile → API password (**not** the web login password)
-3. Optional: enable **Allow insecure HTTP** only for trusted LAN/VPN cleartext.
-4. **Test connection**, then **Save** (or **Save & continue** on first run).
+| Task | Output |
+|------|--------|
+| `./gradlew :app:assembleDebug` | Debuggable APK |
+| `./gradlew :app:assembleRelease` | Minified APK (R8); optional signing via `local.properties` |
+| `./gradlew :app:testDebugUnitTest` | Unit tests |
+
+Optional release signing (see `local.properties.example`):
+
+```properties
+RELEASE_STORE_FILE=/absolute/path/to/upload.jks
+RELEASE_STORE_PASSWORD=...
+RELEASE_KEY_ALIAS=upload
+RELEASE_KEY_PASSWORD=...
+```
+
+After a release build you can refresh the downloadable file:
+
+```bash
+cp app/build/outputs/apk/debug/app-debug.apk releases/FreshRSS-0.7.1.apk
+# or from release outputs when signed
+```
+
+---
 
 ## Project layout
 
@@ -65,26 +132,12 @@ app/src/main/java/com/crome/freshrss/
   ui/
     home/        # Feed list, filters, scope chips
     article/     # Detail, share, browser / play
-    settings/    # Config, layout, security toggles
+    settings/    # Config, layout, theme, security
   util/          # Fever auth, HTML strip, media + URL helpers
+releases/        # Prebuilt APK for sideload download
 ```
 
-## Build variants
-
-| Task | Output |
-|------|--------|
-| `./gradlew :app:assembleDebug` | Debuggable APK (`versionName` e.g. `0.7.0`) |
-| `./gradlew :app:assembleRelease` | Minified APK (R8); optional signing via `local.properties` |
-| `./gradlew :app:testDebugUnitTest` | Unit tests |
-
-Optional release signing keys (see `local.properties.example`):
-
-```properties
-RELEASE_STORE_FILE=/absolute/path/to/upload.jks
-RELEASE_STORE_PASSWORD=...
-RELEASE_KEY_ALIAS=upload
-RELEASE_KEY_PASSWORD=...
-```
+---
 
 ## Security (summary)
 
@@ -95,7 +148,9 @@ RELEASE_KEY_PASSWORD=...
 - **HTTPS by default** for the server URL; HTTP only with an explicit setting
 - In-flight refresh is cancelled when a new one starts
 
-This is a **private / personal** client. Treat cleartext HTTP and untrusted networks carefully.
+Treat cleartext HTTP and untrusted networks carefully.
+
+---
 
 ## API surface
 
@@ -115,6 +170,8 @@ Mirrors the desktop shell helpers:
 | Unread / Starred | Fever API id lists |
 | No API password | Public RSS `/i/?a=rss` (read-only) |
 
+---
+
 ## Roadmap / not yet
 
 - HTML WebView article body (list uses plain text today)
@@ -122,10 +179,14 @@ Mirrors the desktop shell helpers:
 - Background WorkManager polling
 - Full Room offline database (snapshot cache only)
 
+---
+
 ## Credits
 
-- **Matthew Crome** ([@crome1394](https://github.com/crome1394)) — author and maintainer
-- **Grok (xAI)** — development assistance on the Android port and features
+- **Matthew Crome** ([@crome1394](https://github.com/crome1394)) — author and maintainer  
+- **Grok (xAI)** — development assistance on the Android port and features  
+
+---
 
 ## License
 

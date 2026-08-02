@@ -261,12 +261,12 @@ fun HomeScreen(
                         style = MaterialTheme.typography.labelLarge,
                     )
                     Spacer(Modifier.width(10.dp))
-                    // Active scope / media chip label (bright white so icons are understandable).
+                    // Active scope / media chip label (high-contrast on light and dark themes).
                     Text(
                         text = state.activeChipLabel,
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f),
