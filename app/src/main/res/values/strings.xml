@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FreshRSS</string>
+    <string name="widget_description">Unread count and last update. Tap to open FreshRSS.</string>
+    <string name="widget_loading">FreshRSS…</string>
 </resources>

@@ -18,6 +18,7 @@ import com.crome.freshrss.data.offline.toReadScope
 import com.crome.freshrss.data.prefs.SettingsRepository
 import com.crome.freshrss.data.remote.FreshRssClient
 import com.crome.freshrss.util.ServerUrl
+import com.crome.freshrss.widget.FreshRssWidgetUpdater
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -487,6 +488,16 @@ class HomeViewModel(
                 collapsedDates = emptyMap(),
             )
         }
+        publishWidget(snap.unread, snap.savedAtEpochMs)
+    }
+
+    private suspend fun publishWidget(unread: Int, lastUpdatedEpochMs: Long) {
+        if (lastUpdatedEpochMs <= 0L) return
+        FreshRssWidgetUpdater.publish(
+            context = getApplication(),
+            unreadCount = unread,
+            lastUpdatedEpochMs = lastUpdatedEpochMs,
+        )
     }
 
     private suspend fun persistOffline(
@@ -750,6 +761,7 @@ class HomeViewModel(
                     titles = status.titles,
                     savedAt = now,
                 )
+                publishWidget(status.unread, now)
             } catch (e: CancellationException) {
                 // Expected when a newer refresh cancels this job — do not flash an error.
                 throw e
@@ -957,6 +969,7 @@ class HomeViewModel(
     private suspend fun persistCurrentCache() {
         val s = _state.value
         if (s.items.isEmpty() && s.knownFeeds.isEmpty()) return
+        val savedAt = s.lastUpdatedEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis()
         persistOffline(
             scope = s.scope,
             unread = s.unread,
@@ -966,8 +979,10 @@ class HomeViewModel(
             items = s.items,
             feeds = s.knownFeeds,
             titles = s.feedUnreadByTitle,
-            savedAt = s.lastUpdatedEpochMs.takeIf { it > 0 } ?: System.currentTimeMillis(),
+            savedAt = savedAt,
         )
+        // Keep home-screen widget unread badge in sync after local mark read/unread.
+        publishWidget(s.unread, savedAt)
     }
 
     fun toggleStar(id: String) {

@@ -14,9 +14,9 @@ Install the latest prebuilt APK (sideload; enable “Install unknown apps” for
 
 | Version | APK |
 |---------|-----|
-| **0.7.1** | [**FreshRSS_Personal_Client-07.1.apk**](https://github.com/crome1394/freshRSS_android_app/raw/main/releases/FreshRSS_Personal_Client-07.1.apk) |
+| **0.7.2** | [**FreshRSS_Personal_Client-0.7.2.apk**](https://github.com/crome1394/freshRSS_android_app/raw/main/releases/FreshRSS_Personal_Client-0.7.2.apk) |
 
-Direct path in the repo: [`releases/FreshRSS_Personal_Client-07.1.apk`](releases/FreshRSS_Personal_Client-07.1.apk)
+Direct path in the repo: [`releases/FreshRSS_Personal_Client-0.7.2.apk`](releases/FreshRSS_Personal_Client-0.7.2.apk)
 
 > Debug-signed build for personal use. Prefer building a release APK yourself if you need your own signing key.
 
@@ -28,12 +28,13 @@ FreshRSS Android is a lightweight feed reader UI for a **self-hosted FreshRSS** 
 
 - Browse **unread**, **all**, **read**, and **starred** items  
 - Filter by **video** or **audio/podcast-style** articles  
-- Narrow by date (**today**, **yesterday**, last **7 / 14 / 30** days)  
+- Narrow by date (**today**, **yesterday**, last **7 / 14 / 21** days)  
 - Search titles and summaries  
 - Mark read/unread (including swipe), star, mark a whole feed read  
 - Open articles in the browser, or play/listen when media is detected  
 - Keep working briefly **offline** from the last successful download  
 - Tune layout (chips and filters top or bottom) and **light / dark / system** theme  
+- Put a **home-screen widget** on the launcher (unread count + last updated)  
 
 It is a port of a Quickshell desktop widget (`FreshRssPill.qml` + `freshrss-api.sh`), not an official FreshRSS product.
 
@@ -51,13 +52,14 @@ It is a port of a Quickshell desktop widget (`FreshRssPill.qml` + `freshrss-api.
 | **Offline** | Snapshot of the last successful load |
 | **Layout** | Title bar, filter chips, and filters panel can sit at the bottom |
 | **Theme** | System, Light, or Dark (Settings → Appearance) |
+| **Home widget** | Icon + unread count + last updated (updates when you open/refresh the app) |
 | **Extras** | Optional Tailscale shortcut; first-run setup wizard |
 
 ---
 
 ## First-run setup (on the phone)
 
-1. Install the [APK](https://github.com/crome1394/freshRSS_android_app/raw/main/releases/FreshRSS_Personal_Client-07.1.apk) (or build from source below).
+1. Install the [APK](https://github.com/crome1394/freshRSS_android_app/raw/main/releases/FreshRSS_Personal_Client-0.7.2.apk) (or build from source below).
 2. On first launch, the **setup** screen appears (or open **Settings**).
 3. Enter:
    - **FRESHRSS_BASE_URL** — prefer `https://…` (a bare hostname becomes `https://` automatically)
@@ -65,6 +67,15 @@ It is a port of a Quickshell desktop widget (`FreshRssPill.qml` + `freshrss-api.
    - **FRESHRSS_API_PASSWORD** — FreshRSS **Profile → API password**, not the web form password
 4. Optional: **Allow insecure HTTP** only on trusted LAN/VPN.
 5. **Test connection**, then **Save** / **Save & continue**.
+
+### Home-screen widget
+
+1. Long-press the home screen → **Widgets** (or **Add widgets**).
+2. Find **FreshRSS**.
+3. Place the widget; open the app once and pull to refresh so unread + last updated appear.
+4. Tap the widget anytime to open the app.
+
+The widget does **not** poll the network by itself (lowest battery use). It updates when the app loads or refreshes successfully.
 
 ---
 
@@ -113,7 +124,7 @@ RELEASE_KEY_PASSWORD=...
 After a release build you can refresh the downloadable file:
 
 ```bash
-cp app/build/outputs/apk/debug/app-debug.apk releases/FreshRSS_Personal_Client-07.1.apk
+cp app/build/outputs/apk/debug/app-debug.apk releases/FreshRSS_Personal_Client-0.7.2.apk
 # or from release outputs when signed
 ```
 
@@ -175,9 +186,9 @@ Mirrors the desktop shell helpers:
 ## Roadmap / not yet
 
 - HTML WebView article body (list uses plain text today)
-- Home-screen unread widget
-- Background WorkManager polling
+- Background WorkManager polling (widget currently app-driven only)
 - Full Room offline database (snapshot cache only)
+- Richer widget (article list)
 
 ---
 
