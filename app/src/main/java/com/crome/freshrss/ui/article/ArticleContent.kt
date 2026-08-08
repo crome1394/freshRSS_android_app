@@ -153,7 +153,7 @@ fun ArticleContent(
             if (article.isVideo || article.isAudio) {
                 Spacer(Modifier.width(8.dp))
                 FilledTonalButton(
-                    onClick = { SafeUrls.openInBrowser(context, playUrl) },
+                    onClick = { SafeUrls.openWithChooser(context, playUrl, title = "Open with") },
                     enabled = SafeUrls.isSafeHttpUrl(playUrl),
                 ) {
                     Icon(Icons.Default.PlayArrow, contentDescription = null)

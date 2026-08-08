@@ -4,9 +4,30 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!-- Open Tailscale from toolbar -->
+    <!--
+      Package visibility (Android 11+): without these, Play’s “Open with” chooser
+      often only sees the browser and cannot detect YouTube / Spotify, etc.
+    -->
     <queries>
         <package android:name="com.tailscale.ipn" />
+        <!-- Core media apps (Play button prefers these when installed) -->
+        <package android:name="com.google.android.youtube" />
+        <package android:name="org.schabi.newpipe" />
+        <package android:name="com.spotify.music" />
+        <package android:name="com.soundcloud.android" />
+        <package android:name="com.vimeo.android.videoapp" />
+        <package android:name="tv.twitch.android.app" />
+        <!-- Resolve any https/http viewer for the chooser extras -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
     </queries>
 
     <application

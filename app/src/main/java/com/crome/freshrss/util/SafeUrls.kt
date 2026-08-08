@@ -44,6 +44,8 @@ object SafeUrls {
 
     /**
      * Launch a viewer for [raw] if it is a safe http(s) URL.
+     * Uses the default handler (no chooser). Prefer [openWithChooser] when the
+     * user should pick among YouTube, Spotify, browser, etc.
      * @return true if an activity was started
      */
     fun openInBrowser(
@@ -66,4 +68,16 @@ object SafeUrls {
             false
         }
     }
+
+    /**
+     * Show the system “Open with” chooser for a safe http(s) URL, preferring
+     * installed media apps (YouTube, Spotify, …) when the host matches.
+     * @return true if the chooser (or a handler) was started
+     */
+    fun openWithChooser(
+        context: Context,
+        raw: String?,
+        title: String = "Open with",
+        labelIfBlocked: String = "Blocked unsafe link",
+    ): Boolean = MediaAppLinks.openWithChooser(context, raw, title, labelIfBlocked)
 }
